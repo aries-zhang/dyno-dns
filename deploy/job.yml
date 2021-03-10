@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dyno-dns
+
+---
+
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: dyno-dns-job
+  namespace: dyno-dns
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: dyno-dns
+            image: arieszhang/dyno-dns:latest
+            imagePullPolicy: IfNotPresent
+            env:
+              - name: DOMAIN_NAME
+                value: "windvoice.net"
+              - name: GODADDY_API_KEY
+                valueFrom:
+                  secretKeyRef:
+                    name: godaddy-secrets
+                    key: api_key
+              - name: GODADDY_API_SECRET
+                valueFrom:
+                  secretKeyRef:
+                    name: godaddy-secrets
+                    key: api_secret
+          restartPolicy: Never
