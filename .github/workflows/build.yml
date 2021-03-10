@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ master ]
 
+env:
+  DOCKER_REPO: arieszhang/dyno-dns
+  BASE_VERSION: 0.1
+
 jobs:
   docker:
     runs-on: ubuntu-latest
@@ -31,4 +35,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: arieszhang/jenkins-casc:0.1.${{ github.run_number }}, arieszhang/jenkins-casc:latest
+          tags: ${{env.DOCKER_REPO}}:${{env.BASE_VERSION}}.${{ github.run_number }}, ${{env.DOCKER_REPO}}:latest
