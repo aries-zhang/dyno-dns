@@ -97,6 +97,11 @@ func main() {
 	key := os.Getenv("GODADDY_API_KEY")
 	secret := os.Getenv("GODADDY_API_SECRET")
 
+	if domain == "" {
+		fmt.Println("Env vars required: DOMAIN_NAME, GODADDY_API_KEY, GODADDY_API_SECRET")
+		return
+	}
+
 	ip := getExternalIP()
 	if ip == "" {
 		fmt.Println("Could not determine external IP, exiting..")
